@@ -38,6 +38,7 @@ export class Start extends Phaser.Scene {
 
         //Score
         this.scoreLabel = this.add.text(0,0, 'SCORE: ' + this.score, {fontFamily: 'Roboto', fontSize:20});
+        this.scoreLabel.depth = 999;
 
         //Start notification
         this.startLabel = this.add.text(280,270, 'PRESS SPACE TO START', {fontFamily: 'Roboto',fontSize:40});
@@ -57,7 +58,9 @@ export class Start extends Phaser.Scene {
         this.time.addEvent({
             delay: 3000,
             callback: ()=>{
-                this.generatePillars();
+                if(this.isGameStarted){
+                    this.generatePillars();
+                }
             },
             loop:true
         });
@@ -102,6 +105,7 @@ export class Start extends Phaser.Scene {
 
     gameOver(){
         this.time.removeAllEvents();
+        this.physics.disableUpdate();
         this.startLabel = this.add.text(200,240, 'GAME OVER\n YOUR SCORE IS: ' + this.score.toString() + '\n PRESS SPACE TO START AGAIN', {fontFamily: 'Roboto',fontSize:40,align:'center'});
         this.isGameOver = true;
     }
